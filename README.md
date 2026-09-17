@@ -19,12 +19,8 @@ These files are not part of any Xcode target. Nothing here ships inside the app.
 
 ## Before publishing
 
-1. Replace `APPLE_ID_HERE` with the app's real Apple ID, the number in the App Store
-   Connect URL for the app, so the download buttons go somewhere:
-
-   ```
-   grep -rl APPLE_ID_HERE . | xargs sed -i '' 's/idAPPLE_ID_HERE/id1234567890/g'
-   ```
+1. The download buttons point at Apple ID `6758880781`, set on 2026-09-17. If the app
+   is ever re-created in App Store Connect, that number changes in every page.
 
 2. Decide the support address. Everything currently points at `privacy.offerly@gmail.com`.
    If a separate support inbox is made later, swap it the same way.
