@@ -1,78 +1,60 @@
 # Offerly website
 
-Four static pages for the App Store listing and for anyone who looks the app up:
-
-| File | Purpose | Where it is used |
-|---|---|---|
-| `index.html` | Marketing page | Marketing URL in App Store Connect |
-| `privacy.html` | The in-app privacy policy, version 3.1 | **Privacy Policy URL** in App Information — required |
-| `support.html` | Support and troubleshooting | **Support URL** in the version page — required |
-| `terms.html` | Apple's standard EULA plus the subscription terms | Linked from the description and the paywall |
-| `404.html` | Not-found page GitHub Pages serves automatically | — |
-
-No build step, no dependencies, no JavaScript. `styles.css` carries the app's own palette,
-radii and shadow recipes, lifted from `Views/Shared/Theme.swift`, so the site and the app
-stay the same object. It follows the visitor's light or dark setting the way the app follows
-the system one.
-
-These files are not part of any Xcode target. Nothing here ships inside the app.
-
-## Before publishing
-
-1. The download buttons point at Apple ID `6758880781`, set on 2026-09-17. If the app
-   is ever re-created in App Store Connect, that number changes in every page.
-
-2. Decide the support address. Everything currently points at `privacy.offerly@gmail.com`.
-   If a separate support inbox is made later, swap it the same way.
-
-## Publishing on GitHub Pages
-
-The app repository is private, and GitHub Pages will not serve a private repository on a
-free plan, so the site goes in its own public repository. Only these files become public.
-
-1. Create a **public** repository named `offerly` on GitHub, with no README and no
-   `.gitignore`.
-
-2. Push this folder to it as its own repository:
-
-   ```
-   cd Website
-   git init -b main
-   git add .
-   git commit -m "Add the Offerly site"
-   git remote add origin https://github.com/Kaisse99/offerly.git
-   git push -u origin main
-   ```
-
-   That leaves a nested `.git` directory inside `Website/`, which the app repository
-   ignores through the entry added to `.git/info/exclude`.
-
-3. In the new repository: **Settings → Pages → Build and deployment → Source:
-   Deploy from a branch**, branch `main`, folder `/ (root)`, then Save.
-
-4. A minute later the site is live at **https://kaisse99.github.io/offerly/**. The pages
-   already declare that address as their canonical URL; changing the repository name means
-   changing the `<link rel="canonical">` and the Open Graph URLs to match.
-
-Publishing an update is the same three commands from inside `Website/`: `git add -A`,
-`git commit -m "..."`, `git push`.
-
-## A custom domain, if one is ever bought
-
-Add a file named `CNAME` containing only the domain, point the domain's DNS at
-`kaisse99.github.io` with a CNAME record, then set the domain under Settings → Pages and
-tick Enforce HTTPS. Then update the canonical and Open Graph URLs in all four pages.
-
-## Keeping the policy honest
-
-`privacy.html` is a copy of what `PolicyView.swift` renders in the app. When one changes the
-other has to change with it, including the version line at the bottom of both.
-
-## Previewing locally
+The pages behind the Offerly app: the marketing page, the privacy policy, a
+support page and the subscription terms. Plain HTML and one stylesheet. No
+build step, no npm, nothing to install.
 
 ```
-python3 -m http.server 4319 --directory Website
+index.html     the marketing page
+privacy.html   the privacy policy, same text as the one inside the app
+support.html   how to reach me, and answers to the usual problems
+terms.html     Apple's licence plus the subscription terms
+404.html       shown when a link is wrong
+styles.css     all of the styling
+assets/        the app icon and the screenshots
+sitemap.xml    the page list for Google
 ```
 
-Then open http://localhost:4319. Opening the files directly with `file://` works too, but
-a server is closer to how GitHub Pages will serve them.
+The colours and shadows are copied from the app's `Theme.swift`, so the site
+and the app look like the same thing.
+
+## Changing something
+
+Open the file, edit it, save it. To see it before publishing:
+
+```
+python3 -m http.server 4319
+```
+
+Then open http://localhost:4319 in a browser.
+
+## Publishing
+
+The site lives in its own public repository because GitHub Pages will not
+serve a private one for free. Pushing to `main` publishes it:
+
+```
+git add -A
+git commit -m "what changed"
+git push
+```
+
+It takes about a minute. The live address is
+https://kaisse99.github.io/offerly/ and GitHub Pages is set to build from the
+`main` branch, root folder.
+
+If a push does not appear, check whether the build ran at all:
+
+```
+gh api repos/Kaisse99/offerly/pages/builds/latest --jq .status
+```
+
+## Things worth remembering
+
+- These files also live in the app repository under `Website/`. Editing one
+  copy means committing in both, or they drift apart.
+- `privacy.html` must match `PolicyView.swift` in the app. If one changes, the
+  other has to, version line at the bottom included.
+- The App Store links use the app's Apple ID, `6758880781`.
+- `googlec07bbc77a1e7c3b5.html` is there so Google Search Console can confirm
+  the site is mine. Do not delete it.

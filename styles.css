@@ -32,6 +32,13 @@
     --type-rim: rgba(255, 255, 255, 0.95);
     --type-shade: rgba(43, 31, 31, 0.11);
     --type-shade-far: rgba(43, 31, 31, 0.07);
+    --type-top: #343A44;
+    --type-bot: #04060A;
+    --type-cast: rgba(43, 31, 31, 0.20);
+    --lux-top: #8FB4FF;
+    --lux-bot: #2A5FD0;
+    --lux-cast: rgba(29, 54, 110, 0.30);
+    --lux-glow: rgba(59, 123, 255, 0.40);
 
     --radius: 20px;
     --radius-sm: 14px;
@@ -62,12 +69,19 @@
         --type-rim: rgba(255, 255, 255, 0.10);
         --type-shade: rgba(0, 0, 0, 0.50);
         --type-shade-far: rgba(0, 0, 0, 0.32);
+        --type-top: #FFFFFF;
+        --type-bot: #AEB8C9;
+        --type-cast: rgba(0, 0, 0, 0.60);
+        --lux-top: #A8C8FF;
+        --lux-bot: #2F6BE0;
+        --lux-cast: rgba(0, 0, 0, 0.55);
+        --lux-glow: rgba(93, 146, 255, 0.48);
     }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; overflow-x: clip; }
 
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -83,6 +97,8 @@ body {
     font-size: 17px;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    overflow-wrap: break-word;
 }
 
 img { max-width: 100%; display: block; }
@@ -96,6 +112,40 @@ h1, h2, .clay-type {
         0 2px 4px var(--type-shade),
         0 9px 18px var(--type-shade-far);
 }
+
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+    h1, h2, .clay-type {
+        background-image: linear-gradient(
+            180deg,
+            var(--type-top) 0%,
+            var(--ink-strong) 44%,
+            var(--type-bot) 100%
+        );
+        background-size: 100% 1.16em;
+        background-repeat: repeat-y;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: none;
+        filter: drop-shadow(0 5px 10px var(--type-cast));
+    }
+
+    .lux {
+        background-image: linear-gradient(
+            180deg,
+            var(--lux-top) 0%,
+            var(--accent) 52%,
+            var(--lux-bot) 100%
+        );
+        background-size: 100% 1.16em;
+        background-repeat: repeat-y;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+}
+
+.lux { color: var(--accent); }
 h1 { font-size: clamp(2.1rem, 5.4vw, 3.4rem); font-weight: 800; }
 h2 { font-size: clamp(1.6rem, 3.6vw, 2.3rem); font-weight: 800; }
 h3 { font-size: 1.1rem; font-weight: 700; }
