@@ -164,6 +164,7 @@ p { margin: 0; }
     transition: transform 0.18s cubic-bezier(0.32, 0.72, 0, 1), box-shadow 0.18s ease;
 }
 .btn:active { transform: scale(0.97); }
+.btn svg { width: 19px; height: 19px; flex: none; margin-top: -3px; fill: currentColor; }
 
 .btn-cobalt {
     background: linear-gradient(180deg, var(--accent-lift), var(--accent));
@@ -229,8 +230,8 @@ p { margin: 0; }
     box-shadow: 0 3px 7px var(--shadow);
 }
 .site-nav { margin-left: auto; display: flex; align-items: center; gap: clamp(14px, 2.5vw, 28px); }
-.site-nav a { color: var(--section); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
-.site-nav a:hover { color: var(--ink-strong); }
+.site-nav a:not(.btn) { color: var(--section); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+.site-nav a:not(.btn):hover { color: var(--ink-strong); }
 .site-nav .btn { min-height: 44px; padding: 0 20px; }
 @media (max-width: 720px) {
     .site-nav .hide-sm { display: none; }
